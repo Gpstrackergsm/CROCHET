@@ -213,7 +213,8 @@
         {%- else -%}
           <!-- Fallback when no product assigned -->
           <div class="size-options" role="group" aria-label="Select size">
-            {%- for size in 'XS,S,M,L,XL,2X,3X,4X,5X' | split: ',' -%}
+            {%- assign sizes_array = 'XS,S,M,L,XL,2X,3X,4X,5X' | split: ',' -%}
+            {%- for size in sizes_array -%}
               <div class="size-option {% if forloop.first %}selected{% endif %}" tabindex="0" role="radio">{{ size }}</div>
             {%- endfor -%}
           </div>
