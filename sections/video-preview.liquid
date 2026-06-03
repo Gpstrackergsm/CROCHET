@@ -1,0 +1,114 @@
+{% comment %}
+  Section: Video Preview
+  Embedded video tutorial section
+{% endcomment %}
+
+<section class="section" id="video-preview" aria-labelledby="video-heading">
+  <div class="container">
+
+    <div class="section-title reveal">
+      <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-primary);margin-bottom:0.5rem;">
+        🎬 Watch Before You Buy
+      </p>
+      <h2 id="video-heading">{{ section.settings.heading | default: 'See the Solea Cardigan Come to Life' }}</h2>
+      <p>{{ section.settings.subheading | default: 'Your pattern includes a full step-by-step video tutorial — here\'s a preview of what to expect.' }}</p>
+    </div>
+
+    <div class="video-wrapper reveal" style="margin-top:3rem;position:relative;max-width:900px;margin-left:auto;margin-right:auto;">
+
+      <!-- Decorative frame -->
+      <div style="position:absolute;top:-12px;left:-12px;right:12px;bottom:12px;border:2px solid var(--color-primary);border-radius:var(--radius-xl);opacity:0.3;pointer-events:none;z-index:0;" aria-hidden="true"></div>
+
+      <!-- Video embed -->
+      <div style="position:relative;padding-bottom:56.25%;border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-xl);background:var(--color-dark);z-index:1;">
+
+        {%- if section.settings.video_url != blank -%}
+          {%- assign video_id = section.settings.video_url | split: 'v=' | last | split: '&' | first -%}
+          {%- if section.settings.video_url contains 'youtu' -%}
+            <iframe
+              src="https://www.youtube.com/embed/{{ video_id }}?rel=0&modestbranding=1"
+              title="Solea Shell Stitch Cardigan — Video Tutorial"
+              style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          {%- elsif section.settings.video_url contains 'vimeo' -%}
+            {%- assign vimeo_id = section.settings.video_url | split: '/' | last -%}
+            <iframe
+              src="https://player.vimeo.com/video/{{ vimeo_id }}?color=C4956A&title=0&byline=0&portrait=0"
+              title="Solea Shell Stitch Cardigan — Video Tutorial"
+              style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          {%- endif -%}
+        {%- else -%}
+          <!-- Placeholder when no video URL is set -->
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(145deg,#2C2416,#4A3520);color:rgba(255,255,255,0.7);text-align:center;padding:2rem;">
+            <div style="width:80px;height:80px;background:rgba(196,149,106,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;border:2px solid rgba(196,149,106,0.5);">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" aria-hidden="true">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
+            </div>
+            <h3 style="color:white;font-family:var(--font-heading);font-size:1.5rem;margin-bottom:0.5rem;">Video Tutorial Included</h3>
+            <p style="font-size:0.9rem;max-width:400px;line-height:1.6;">
+              Add your YouTube or Vimeo URL in the Theme Editor to display the pattern tutorial preview here.
+            </p>
+            <p style="font-size:0.8rem;margin-top:1rem;opacity:0.6;">
+              Theme Editor → Video Preview → Video URL
+            </p>
+          </div>
+        {%- endif -%}
+
+      </div>
+
+    </div>
+
+    <!-- Video callout -->
+    <div class="reveal" style="margin-top:2rem;text-align:center;">
+      <div style="display:inline-flex;align-items:center;gap:1rem;background:var(--color-bg-alt);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:0.875rem 1.75rem;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span style="font-size:0.875rem;font-weight:600;color:var(--color-text);">
+          Full step-by-step video tutorial is included with every pattern purchase
+        </span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Video Preview",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "default": "See the Solea Cardigan Come to Life"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Section subheading",
+      "default": "Your pattern includes a full step-by-step video tutorial — here's a preview of what to expect."
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "YouTube or Vimeo URL",
+      "info": "Paste the full URL, e.g. https://www.youtube.com/watch?v=XXXXXXXXX"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Preview"
+    }
+  ]
+}
+{% endschema %}

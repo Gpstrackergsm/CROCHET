@@ -1,0 +1,10 @@
+{
+  "current": "Default",
+  "presets": {
+    "Default": {
+      "colors_primary": "#C4956A",
+      "colors_accent": "#7A9E87",
+      "show_klarna_badge": true
+    }
+  }
+}

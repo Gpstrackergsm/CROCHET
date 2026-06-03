@@ -1,0 +1,36 @@
+{
+  "name": "Home page",
+  "wrapper": "main",
+  "sections": {
+    "hero": {
+      "type": "hero-banner"
+    },
+    "product": {
+      "type": "product-main"
+    },
+    "features": {
+      "type": "product-features"
+    },
+    "size_guide": {
+      "type": "size-guide"
+    },
+    "video": {
+      "type": "video-preview"
+    },
+    "testimonials": {
+      "type": "testimonials"
+    },
+    "faq": {
+      "type": "faq"
+    }
+  },
+  "order": [
+    "hero",
+    "product",
+    "features",
+    "size_guide",
+    "video",
+    "testimonials",
+    "faq"
+  ]
+}

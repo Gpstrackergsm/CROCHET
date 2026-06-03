@@ -1,0 +1,47 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Solea Shopify Theme",
+    "theme_author": "MJ's Off The Hook Designs",
+    "theme_version": "1.0.0",
+    "theme_support_url": "https://facebook.com",
+    "theme_documentation_url": "https://github.com/Gpstrackergsm/CROCHET"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "colors_primary",
+        "label": "Primary brand color",
+        "default": "#C4956A"
+      },
+      {
+        "type": "color",
+        "id": "colors_accent",
+        "label": "Accent color",
+        "default": "#7A9E87"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Fonts are loaded via Google Fonts in theme.liquid (Playfair Display & Inter)"
+      }
+    ]
+  },
+  {
+    "name": "Product Settings",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_klarna_badge",
+        "label": "Show Klarna installment widget",
+        "default": true
+      }
+    ]
+  }
+]

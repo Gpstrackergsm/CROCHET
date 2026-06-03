@@ -1,0 +1,55 @@
+name: Shopify Theme Check
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  theme-check:
+    name: Run Shopify Theme Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+
+      - name: Install Shopify CLI
+        run: |
+          gem install shopify-cli
+          npm install -g @shopify/theme-check
+
+      - name: Run Theme Check
+        run: shopify theme check --fail-level error
+
+      - name: Validate JSON Templates
+        run: |
+          echo "Validating JSON template files..."
+          for f in templates/*.json; do
+            python3 -c "import json,sys; json.load(open('$f'))" && echo "✓ $f" || (echo "✗ $f is invalid JSON" && exit 1)
+          done
+          echo "All JSON templates valid."
+
+      - name: Validate settings_schema.json
+        run: |
+          python3 -c "import json,sys; json.load(open('config/settings_schema.json'))" && echo "✓ settings_schema.json valid"
+
+      - name: Check for required files
+        run: |
+          required_files=(
+            "layout/theme.liquid"
+            "config/settings_schema.json"
+            "locales/en.default.json"
+            "sections/header.liquid"
+            "sections/footer.liquid"
+          )
+          for f in "${required_files[@]}"; do
+            [ -f "$f" ] && echo "✓ $f exists" || (echo "✗ Required file missing: $f" && exit 1)
+          done

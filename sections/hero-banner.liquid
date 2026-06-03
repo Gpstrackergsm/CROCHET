@@ -1,0 +1,247 @@
+{% comment %}
+  Section: Hero Banner
+  Full-width hero with product highlight and CTA
+{% endcomment %}
+
+{{ 'component-hero.css' | asset_url | stylesheet_tag }}
+
+<section class="hero" id="hero" aria-label="Solea Shell Stitch Cardigan Pattern">
+
+  <!-- Background image -->
+  {%- if section.settings.background_image != blank -%}
+    {{- section.settings.background_image | image_url: width: 1920 | image_tag:
+        class: 'hero__bg',
+        loading: 'eager',
+        fetchpriority: 'high',
+        alt: '' -}}
+  {%- endif -%}
+  <div class="hero__overlay" aria-hidden="true"></div>
+
+  <!-- Decorative shells -->
+  <div class="hero__shell-deco hero__shell-deco--tl" aria-hidden="true">
+    <svg viewBox="0 0 200 200" fill="currentColor" color="white">
+      <path d="M100,10 C130,10 160,30 170,60 C180,90 165,120 140,135 C115,150 85,145 65,128 C45,111 38,85 48,62 C58,39 70,10 100,10 Z M100,30 C80,30 62,42 55,58 C48,74 52,93 65,106 C78,119 98,123 115,114 C132,105 142,86 138,68 C134,50 120,30 100,30 Z"/>
+      <circle cx="100" cy="80" r="15" opacity="0.4"/>
+    </svg>
+  </div>
+
+  <!-- Main content -->
+  <div class="hero__content">
+
+    <!-- Text column -->
+    <div class="hero__text">
+
+      <!-- Eyebrow -->
+      <div class="hero__eyebrow">
+        MJ's Off The Hook Designs
+      </div>
+
+      <!-- Star Seller Badge -->
+      <div style="margin-bottom: 1rem; animation: fadeInUp 0.6s ease 0.15s both; display: inline-block;">
+        {% render 'badge-seller' %}
+      </div>
+
+      <!-- Headline -->
+      <h1 class="hero__title">
+        {{ section.settings.heading | default: 'Solea Shell Stitch Cardigan' }}
+        <em>{{ section.settings.subheading | default: 'Crochet Pattern PDF' }}</em>
+      </h1>
+
+      <!-- Description -->
+      <p class="hero__description">
+        {{ section.settings.description | default: 'A seamless, top-down summer layering piece featuring delicate shell and V-stitches. Sizes XS–5X. Includes PDF pattern, video tutorial, schematic & stitch chart.' }}
+      </p>
+
+      <!-- Rating -->
+      <div class="hero__rating">
+        <div class="star-rating" aria-label="5 out of 5 stars">
+          {% for i in (1..5) %}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F5C842" aria-hidden="true">
+              <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+            </svg>
+          {% endfor %}
+          <span class="star-rating__count">5.0 ({{ section.settings.review_count | default: '147' }} reviews)</span>
+        </div>
+        <span class="badge badge--accent">⚡ Instant Download</span>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="hero__cta-group">
+        <a href="{{ section.settings.product_url | default: '/products/solea-shell-stitch-cardigan-pattern' }}"
+           class="btn btn--primary btn--lg btn--icon"
+           id="hero-buy-now-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          Buy Now — ${{ section.settings.price | default: '14.99' }}
+        </a>
+        <a href="#pattern-features" class="btn btn--secondary btn--lg" id="hero-learn-more-btn">
+          Learn More ↓
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Visual column -->
+    <div class="hero__visual" aria-hidden="true">
+      <div class="hero__image-frame">
+
+        <!-- Floating tag -->
+        <div class="hero__tag">PDF Digital Download</div>
+
+        <!-- Main image -->
+        {%- if section.settings.product_image != blank -%}
+          {{- section.settings.product_image | image_url: width: 800 | image_tag:
+              loading: 'eager',
+              alt: 'Solea Shell Stitch Cardigan' -}}
+        {%- else -%}
+          <div style="width:100%;aspect-ratio:4/5;background:linear-gradient(145deg,#C4956A22,#7A9E8733);border-radius:var(--radius-xl);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);">
+            <div style="text-align:center;">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <p style="margin-top:0.5rem;font-size:0.875rem;">Add your product image<br>in Theme Editor</p>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <!-- Floating info card -->
+        <div class="hero__floating-card">
+          <div class="price-tag">${{ section.settings.price | default: '14.99' }}</div>
+          <div class="price-note">Sizes XS – 5X included</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /hero__content -->
+
+  <!-- Wave divider -->
+  <div class="hero__wave" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 80" preserveAspectRatio="none">
+      <path fill="{{ section.settings.wave_color | default: '#FDFAF6' }}"
+        d="M0,40 C180,80 360,0 540,40 C720,80 900,0 1080,40 C1260,80 1380,20 1440,40 L1440,80 L0,80 Z"/>
+    </svg>
+  </div>
+
+</section>
+
+<!-- Trust Bar -->
+<div class="trust-bar" aria-label="Trust indicators">
+  <div class="trust-bar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    Instant PDF Download
+  </div>
+  <div class="trust-bar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+      <path d="M7 11V7a5 5 0 0110 0v4"/>
+    </svg>
+    Secure Checkout
+  </div>
+  <div class="trust-bar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    </svg>
+    5-Star Seller
+  </div>
+  <div class="trust-bar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.98 1.18 2 2 0 012.96 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14v2.92z"/>
+    </svg>
+    Video Tutorial Included
+  </div>
+  <div class="trust-bar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+      <path d="M16 3.13a4 4 0 010 7.75"/>
+    </svg>
+    Sizes XS–5X
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Solea Shell Stitch Cardigan"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Crochet Pattern PDF"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "A seamless, top-down summer layering piece featuring delicate shell and V-stitches. Sizes XS–5X. Includes PDF pattern, video tutorial, schematic & stitch chart."
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Product price",
+      "default": "14.99"
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Review count",
+      "default": "147"
+    },
+    {
+      "type": "url",
+      "id": "product_url",
+      "label": "Product URL"
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Product showcase image"
+    },
+    {
+      "type": "header",
+      "content": "Design"
+    },
+    {
+      "type": "color",
+      "id": "wave_color",
+      "label": "Wave divider color",
+      "default": "#FDFAF6"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner"
+    }
+  ]
+}
+{% endschema %}

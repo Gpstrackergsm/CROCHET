@@ -1,0 +1,12 @@
+{
+  "name": "Default page",
+  "wrapper": "main",
+  "sections": {
+    "main": {
+      "type": "main-page"
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

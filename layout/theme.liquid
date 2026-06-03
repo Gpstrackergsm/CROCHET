@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.colors_primary }}">
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- else -%}
+      <meta name="description" content="Shop the Solea Shell Stitch Cardigan Crochet Pattern — a seamless, top-down summer cardigan PDF by MJ's Off The Hook Designs. Sizes XS–5X. Instant digital download.">
+    {%- endif -%}
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ page_title }} — MJ's Off The Hook Designs">
+    <meta property="og:description" content="{{ page_description | default: 'Premium crochet pattern PDF — Solea Shell Stitch Cardigan. Seamless, top-down, sizes XS–5X.' | escape }}">
+    <meta property="og:image" content="{{ 'solea-hero.jpg' | asset_url }}">
+
+    <title>
+      {%- if template == 'index' -%}
+        {{ shop.name }} — Solea Shell Stitch Cardigan Pattern
+      {%- else -%}
+        {{ page_title }} — {{ shop.name }}
+      {%- endif -%}
+    </title>
+
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {{ content_for_header }}
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+  </head>
+
+  <body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}">
+    <a class="skip-to-content-link button visually-hidden" href="#MainContent">
+      {{ 'accessibility.skip_to_text' | t }}
+    </a>
+
+    {%- sections 'header-group' -%}
+
+    <main id="MainContent" class="content-for-layout" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {%- sections 'footer-group' -%}
+
+    {{ 'main.js' | asset_url | script_tag }}
+
+    {%- if settings.show_klarna_badge -%}
+      <script async src="https://js.klarna.com/web-sdk/v1/klarna.js"
+        data-client-id="odp-us1"
+        data-environment="production">
+      </script>
+    {%- endif -%}
+  </body>
+</html>

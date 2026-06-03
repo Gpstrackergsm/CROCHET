@@ -1,0 +1,96 @@
+{% comment %}
+  Section: Header
+  Sticky navigation header with announcement bar
+{% endcomment %}
+
+{{ 'component-hero.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.show_announcement -%}
+  <div class="announcement-bar" role="banner">
+    {{ section.settings.announcement_text }}
+    {%- if section.settings.announcement_link != blank -%}
+      — <a href="{{ section.settings.announcement_link }}">{{ section.settings.announcement_link_text }}</a>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+<header class="site-header" id="site-header" role="banner">
+  <div class="site-header__inner">
+
+    <!-- Logo -->
+    <a class="site-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+      {%- if section.settings.logo != blank -%}
+        {{- section.settings.logo | image_url: width: 180 | image_tag: loading: 'eager', alt: shop.name -}}
+      {%- else -%}
+        <span>MJ's</span> Off The Hook
+      {%- endif -%}
+    </a>
+
+    <!-- Navigation -->
+    <nav class="site-header__nav" aria-label="Main navigation">
+      <a href="{{ routes.root_url }}">Home</a>
+      <a href="#pattern-features">Pattern</a>
+      <a href="#size-guide">Size Guide</a>
+      <a href="#video-preview">Video</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="site-header__actions">
+      <a href="{{ routes.cart_url }}"
+         class="btn btn--primary btn--sm"
+         id="header-cart-btn"
+         aria-label="View cart ({{ cart.item_count }} items)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        {%- if cart.item_count > 0 -%}
+          {{ cart.item_count }}
+        {%- else -%}
+          Cart
+        {%- endif -%}
+      </a>
+    </div>
+
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement bar",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "<p>🧶 Instant PDF Download — Solea Shell Stitch Cardigan Pattern now available!</p>"
+    },
+    {
+      "type": "url",
+      "id": "announcement_link",
+      "label": "Announcement link"
+    },
+    {
+      "type": "text",
+      "id": "announcement_link_text",
+      "label": "Announcement link text",
+      "default": "Shop Now"
+    }
+  ]
+}
+{% endschema %}

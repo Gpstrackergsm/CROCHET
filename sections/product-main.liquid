@@ -1,0 +1,453 @@
+{% comment %}
+  Section: Product Main
+  Primary product form — gallery, details, add to cart
+{% endcomment %}
+
+{{ 'component-product.css' | asset_url | stylesheet_tag }}
+
+{%- assign product = section.settings.product | default: all_products.first -%}
+{%- if product == blank -%}
+  {%- assign product = all_products.first -%}
+{%- endif -%}
+
+<section class="product-page" id="product" aria-label="Product Details">
+  <div class="container">
+    <div class="product-layout">
+
+      <!-- ===== LEFT: Image Gallery ===== -->
+      <div class="product-gallery reveal">
+
+        <div class="product-gallery__main" id="product-main-image" aria-label="Product image">
+
+          <!-- Digital badge -->
+          <div class="product-gallery__badge" aria-label="Digital product">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            PDF Download
+          </div>
+
+          {%- if product != blank and product.featured_image -%}
+            {{- product.featured_image | image_url: width: 900 | image_tag:
+                loading: 'eager',
+                alt: product.featured_image.alt | default: product.title -}}
+          {%- else -%}
+            <div style="width:100%;height:100%;background:linear-gradient(145deg,#E8D5BE,#C4956A33);display:flex;align-items:center;justify-content:center;">
+              <div style="text-align:center;color:var(--color-text-muted);padding:2rem;">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                <p style="margin-top:0.75rem;font-size:0.875rem;">Add product images<br>in Shopify Admin</p>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+
+        <!-- Thumbnails -->
+        <div class="product-gallery__thumbnails" role="list" aria-label="Product images">
+          {%- if product != blank -%}
+            {%- for image in product.images limit: 4 -%}
+              <div class="product-gallery__thumb {% if forloop.first %}active{% endif %}"
+                   role="listitem"
+                   tabindex="0"
+                   aria-label="View image {{ forloop.index }}">
+                {{- image | image_url: width: 200 | image_tag: loading: 'lazy', alt: image.alt | default: product.title -}}
+              </div>
+            {%- else -%}
+              {%- for i in (1..4) -%}
+                <div class="product-gallery__thumb {% if forloop.first %}active{% endif %}"
+                     role="listitem"
+                     style="background:linear-gradient(135deg,#E8D5BE,#C2D9CC);aspect-ratio:1;">
+                </div>
+              {%- endfor -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- ===== RIGHT: Product Info ===== -->
+      <div class="product-info reveal reveal--delay-1">
+
+        <!-- Star Seller badge -->
+        {% render 'badge-seller' %}
+
+        <!-- Title -->
+        <div>
+          <h1 class="product-title">
+            {%- if product != blank -%}
+              {{ product.title }}
+            {%- else -%}
+              Solea Shell Stitch Cardigan Pattern
+              <span>Summer Cardigan · Top-Down · Seamless · PDF</span>
+            {%- endif -%}
+          </h1>
+        </div>
+
+        <!-- Rating -->
+        <div class="product-rating" aria-label="Customer reviews">
+          <div class="product-rating__stars" aria-hidden="true">
+            {% for i in (1..5) %}
+              <svg viewBox="0 0 24 24" fill="#F5C842">
+                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+              </svg>
+            {% endfor %}
+          </div>
+          <span class="product-rating__score">5.0</span>
+          <a class="product-rating__count" href="#reviews" aria-label="Read 147 customer reviews">
+            ({{ section.settings.review_count | default: '147' }} reviews)
+          </a>
+        </div>
+
+        <!-- Price block -->
+        <div class="product-price-block">
+          <div class="product-price">
+            <span class="product-price__current" aria-label="Price: $14.99">
+              {%- if product != blank -%}
+                {{ product.price | money }}
+              {%- else -%}
+                $14.99
+              {%- endif -%}
+            </span>
+            {%- if section.settings.original_price != blank -%}
+              <span class="product-price__original" aria-label="Original price: {{ section.settings.original_price }}">
+                ${{ section.settings.original_price }}
+              </span>
+              <span class="product-price__save">Save {{ section.settings.savings }}</span>
+            {%- endif -%}
+          </div>
+
+          <!-- Klarna -->
+          {%- if settings.show_klarna_badge -%}
+            <div class="product-klarna" aria-label="Pay in 4 installments with Klarna">
+              <span class="product-klarna__logo">K</span>
+              4 interest-free payments of
+              <strong>${{- 14.99 | divided_by: 4.0 | round: 2 -}}</strong>
+              with <span class="product-klarna__logo">Klarna</span>
+              <a href="https://www.klarna.com/us/shopping/how-to-pay-for-my-purchase/" target="_blank" rel="noopener">
+                Check purchase power
+              </a>
+            </div>
+          {%- else -%}
+            <div class="product-klarna">
+              <span class="product-klarna__logo">K</span>
+              4 payments of <strong>$3.75</strong> at 0% interest with <span class="product-klarna__logo">Klarna</span>
+            </div>
+          {%- endif -%}
+        </div>
+
+        <!-- Digital download notice -->
+        <div class="product-download-notice" role="note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span>
+            <strong>Digital Download Only</strong> — No physical item will be shipped.
+            Access your PDF instantly after payment via your account's "Purchases &amp; Reviews" section.
+          </span>
+        </div>
+
+        <!-- Product Form -->
+        {%- if product != blank -%}
+          {%- form 'product', product, id: 'product-form', novalidate: true -%}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+            <!-- Size Selector -->
+            <div class="form-group">
+              <div class="product-variant-label">
+                Size
+                <a href="#size-guide"
+                   id="size-guide-toggle-btn"
+                   data-size-guide-toggle
+                   aria-label="View size guide">
+                  Size Guide →
+                </a>
+              </div>
+              <div class="size-options" role="group" aria-label="Select size">
+                {%- for variant in product.variants -%}
+                  <div class="size-option {% if forloop.first %}selected{% endif %}"
+                       data-variant-id="{{ variant.id }}"
+                       tabindex="0"
+                       role="radio"
+                       aria-checked="{{ forloop.first }}"
+                       aria-label="Size {{ variant.title }}">
+                    {{ variant.title }}
+                  </div>
+                {%- endfor -%}
+              </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="product-cta">
+              <button type="submit"
+                      name="add"
+                      id="add-to-cart-btn"
+                      data-add-to-cart
+                      class="btn btn--dark btn--full btn--icon"
+                      aria-label="Add to cart">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                  <line x1="3" y1="6" x2="21" y2="6"/>
+                  <path d="M16 10a4 4 0 01-8 0"/>
+                </svg>
+                Add to Cart
+              </button>
+              <a href="{{ product.url }}/checkout"
+                 class="btn btn--primary btn--full btn--icon"
+                 id="buy-now-btn"
+                 aria-label="Buy now">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                  <path d="M2 17l10 5 10-5"/>
+                  <path d="M2 12l10 5 10-5"/>
+                </svg>
+                Buy It Now — Instant Download
+              </a>
+            </div>
+          {%- endform -%}
+        {%- else -%}
+          <!-- Fallback when no product assigned -->
+          <div class="size-options" role="group" aria-label="Select size">
+            {%- for size in 'XS,S,M,L,XL,2X,3X,4X,5X' | split: ',' -%}
+              <div class="size-option {% if forloop.first %}selected{% endif %}" tabindex="0" role="radio">{{ size }}</div>
+            {%- endfor -%}
+          </div>
+          <div class="product-cta" style="margin-top:1rem;">
+            <a href="#" class="btn btn--dark btn--full" id="add-to-cart-demo">Add to Cart</a>
+            <a href="#" class="btn btn--primary btn--full" id="buy-now-demo">Buy It Now — Instant Download</a>
+          </div>
+        {%- endif -%}
+
+        <!-- Trust Icons -->
+        <div class="product-trust-icons" aria-label="Product guarantees">
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span>Instant<br>Download</span>
+          </div>
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/>
+              <path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+              <path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/>
+              <path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/>
+              <path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/>
+              <path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/>
+              <path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/>
+              <path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/>
+            </svg>
+            <span>2 PDF<br>Files</span>
+          </div>
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/>
+            </svg>
+            <span>Video<br>Tutorial</span>
+          </div>
+        </div>
+
+        <!-- Accordion -->
+        <div class="product-accordion">
+
+          <!-- What's Included -->
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="true" aria-controls="accordion-whats-included">
+              📋 What's Included
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="accordion-content open" id="accordion-whats-included">
+              <ul>
+                <li>Complete written pattern (Standard American Terms)</li>
+                <li>Step-by-step video tutorial link</li>
+                <li>Schematic with measurements</li>
+                <li>Stitch chart</li>
+                <li>Yarn substitution list</li>
+                <li>Sizes XS, S, M, L, XL, 2X, 3X, 4X, 5X</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Pattern Details -->
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="accordion-details">
+              🧶 Pattern Details
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="accordion-content" id="accordion-details">
+              <ul>
+                <li><strong>Difficulty:</strong> Intermediate</li>
+                <li><strong>Construction:</strong> Seamless, top-down</li>
+                <li><strong>Yarn Weight:</strong> Fingering #1</li>
+                <li><strong>Hook Size:</strong> US G/6 (4mm)</li>
+                <li><strong>Stitches:</strong> Shell stitch, V-stitch</li>
+                <li><strong>Sleeve Options:</strong> Short (1") or Long (17")</li>
+                <li><strong>Language:</strong> English only</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Digital Download Info -->
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="accordion-download">
+              💾 Download Info
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="accordion-content" id="accordion-download">
+              <p>After purchase, download your PDF from your Shopify account or confirmation email. Compatible with Adobe Acrobat and most PDF readers on phones, tablets, and computers.</p>
+              <p><strong>Note:</strong> No physical item will be shipped. All sales are final — no returns on digital products.</p>
+            </div>
+          </div>
+
+          <!-- Copyright -->
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="accordion-copyright">
+              © Copyright & Usage
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="accordion-content" id="accordion-copyright">
+              <p>© 2026 MJ's Off The Hook Designs Inc. For personal use only. You may sell finished items made from this pattern — please credit MJsOffTheHookDesigns as designer for online sales.</p>
+              <p>Reproduction, distribution, or sharing of this pattern is strictly prohibited.</p>
+            </div>
+          </div>
+
+        </div><!-- /accordion -->
+
+      </div><!-- /product-info -->
+    </div><!-- /product-layout -->
+  </div><!-- /container -->
+</section>
+
+<!-- Size Guide Modal -->
+<div id="size-guide-modal"
+     class="modal"
+     aria-hidden="true"
+     aria-modal="true"
+     role="dialog"
+     aria-labelledby="size-guide-modal-title">
+  <div class="modal__backdrop" data-size-guide-close></div>
+  <div class="modal__dialog">
+    <div class="modal__header">
+      <h3 id="size-guide-modal-title">📏 Size Guide — Solea Cardigan</h3>
+      <button class="modal__close" data-size-guide-close aria-label="Close size guide">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal__body">
+      {% render 'size-chart-table' %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-lg);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-base);
+  }
+  .modal.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(44, 36, 22, 0.6);
+    backdrop-filter: blur(4px);
+  }
+  .modal__dialog {
+    position: relative;
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-xl);
+    animation: scaleIn 0.3s ease;
+  }
+  .modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-lg) var(--space-xl);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .modal__body {
+    padding: var(--space-xl);
+  }
+  .modal__close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    padding: 0.25rem;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast), background var(--transition-fast);
+  }
+  .modal__close:hover {
+    color: var(--color-dark);
+    background: var(--color-bg-alt);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Product Main",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Review count displayed",
+      "default": "147"
+    },
+    {
+      "type": "text",
+      "id": "original_price",
+      "label": "Original (crossed-out) price",
+      "info": "Leave blank to hide sale badge"
+    },
+    {
+      "type": "text",
+      "id": "savings",
+      "label": "Savings text (e.g. 25% off)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Main"
+    }
+  ]
+}
+{% endschema %}
