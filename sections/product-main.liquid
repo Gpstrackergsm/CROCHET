@@ -5,10 +5,8 @@
 
 {{ 'component-product.css' | asset_url | stylesheet_tag }}
 
-{%- assign product = section.settings.product | default: all_products.first -%}
-{%- if product == blank -%}
-  {%- assign product = all_products.first -%}
-{%- endif -%}
+{%- assign fallback_handle = 'crochet-pattern-video-solea-shell-stitch-cardigan-pattern-summer-cardigan-top-down-cardigan-xs-5x-seamless-pdf' -%}
+{%- assign product = section.settings.product | default: all_products[fallback_handle] -%}
 
 <section class="product-page" id="product" aria-label="Product Details">
   <div class="container">
