@@ -2,17 +2,14 @@
   "name": "Home page",
   "wrapper": "main",
   "sections": {
-    "hero": {
-      "type": "hero-banner"
-    },
     "product": {
       "type": "product-main"
     },
+    "lifestyle": {
+      "type": "lifestyle-story"
+    },
     "features": {
       "type": "product-features"
-    },
-    "size_guide": {
-      "type": "size-guide"
     },
     "video": {
       "type": "video-preview"
@@ -25,10 +22,9 @@
     }
   },
   "order": [
-    "hero",
     "product",
+    "lifestyle",
     "features",
-    "size_guide",
     "video",
     "testimonials",
     "faq"

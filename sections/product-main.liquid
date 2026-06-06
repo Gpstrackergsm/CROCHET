@@ -1,6 +1,7 @@
 {% comment %}
   Section: Product Main
-  Primary product form — gallery, details, add to cart
+  Hero product section — sits at the very top of the homepage.
+  Gallery left, purchase form right. Full conversion-optimised layout.
 {% endcomment %}
 
 {{ 'component-product.css' | asset_url | stylesheet_tag }}
@@ -8,7 +9,14 @@
 {%- assign fallback_handle = 'crochet-pattern-video-solea-shell-stitch-cardigan-pattern-summer-cardigan-top-down-cardigan-xs-5x-seamless-pdf' -%}
 {%- assign product = section.settings.product | default: all_products[fallback_handle] -%}
 
-<section class="product-page" id="product" aria-label="Product Details">
+<section class="product-hero" id="product" aria-label="Product Details">
+
+  <!-- Decorative background shapes -->
+  <div class="product-hero__bg-deco" aria-hidden="true">
+    <div class="product-hero__blob product-hero__blob--1"></div>
+    <div class="product-hero__blob product-hero__blob--2"></div>
+  </div>
+
   <div class="container">
     <div class="product-layout">
 
@@ -30,202 +38,196 @@
           {%- if product != blank and product.featured_image -%}
             {{- product.featured_image | image_url: width: 900 | image_tag:
                 loading: 'eager',
+                fetchpriority: 'high',
                 alt: product.featured_image.alt | default: product.title -}}
+          {%- elsif section.settings.fallback_image != blank -%}
+            {{- section.settings.fallback_image | image_url: width: 900 | image_tag:
+                loading: 'eager',
+                fetchpriority: 'high',
+                alt: 'Solea Shell Stitch Cardigan Pattern' -}}
           {%- else -%}
-            <div style="width:100%;height:100%;background:linear-gradient(145deg,#E8D5BE,#C4956A33);display:flex;align-items:center;justify-content:center;">
-              <div style="text-align:center;color:var(--color-text-muted);padding:2rem;">
-                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <rect x="3" y="3" width="18" height="18" rx="2"/>
-                  <circle cx="8.5" cy="8.5" r="1.5"/>
-                  <polyline points="21 15 16 10 5 21"/>
-                </svg>
-                <p style="margin-top:0.75rem;font-size:0.875rem;">Add product images<br>in Shopify Admin</p>
-              </div>
+            <div class="product-gallery__placeholder" aria-label="Product image placeholder">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <p>Add images in Shopify Admin</p>
             </div>
           {%- endif -%}
+
         </div>
 
-        <!-- Thumbnails -->
-        <div class="product-gallery__thumbnails" role="list" aria-label="Product images">
-          {%- if product != blank -%}
-            {%- for image in product.images limit: 4 -%}
+        <!-- Thumbnail Strip -->
+        {%- if product != blank and product.images.size > 1 -%}
+          <div class="product-gallery__thumbnails" role="list" aria-label="Product images">
+            {%- for image in product.images limit: 5 -%}
               <div class="product-gallery__thumb {% if forloop.first %}active{% endif %}"
                    role="listitem"
                    tabindex="0"
-                   aria-label="View image {{ forloop.index }}">
-                {{- image | image_url: width: 200 | image_tag: loading: 'lazy', alt: image.alt | default: product.title -}}
+                   data-image-src="{{ image | image_url: width: 400 }}"
+                   aria-label="Image {{ forloop.index }}">
+                {{- image | image_url: width: 200 | image_tag:
+                    loading: 'lazy',
+                    alt: image.alt | default: product.title -}}
               </div>
-            {%- else -%}
-              {%- for i in (1..4) -%}
-                <div class="product-gallery__thumb {% if forloop.first %}active{% endif %}"
-                     role="listitem"
-                     style="background:linear-gradient(135deg,#E8D5BE,#C2D9CC);aspect-ratio:1;">
-                </div>
-              {%- endfor -%}
             {%- endfor -%}
-          {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        <!-- Trust strip under gallery -->
+        <div class="gallery-trust-strip">
+          <span>🔒 Secure Checkout</span>
+          <span>⚡ Instant Download</span>
+          <span>✅ 5-Star Seller</span>
         </div>
+
       </div>
 
       <!-- ===== RIGHT: Product Info ===== -->
       <div class="product-info reveal reveal--delay-1">
 
-        <!-- Star Seller badge -->
-        {% render 'badge-seller' %}
-
-        <!-- Title -->
-        <div>
-          <h1 class="product-title">
-            {%- if product != blank -%}
-              {{ product.title }}
-            {%- else -%}
-              Solea Shell Stitch Cardigan Pattern
-              <span>Summer Cardigan · Top-Down · Seamless · PDF</span>
-            {%- endif -%}
-          </h1>
+        <!-- Seller badge -->
+        <div class="product-seller-badge">
+          <svg viewBox="0 0 24 24" fill="#F5C842" width="16" height="16" aria-hidden="true">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+          Etsy Star Seller — MJ's Off The Hook Designs
         </div>
 
-        <!-- Rating -->
-        <div class="product-rating" aria-label="Customer reviews">
+        <!-- Title -->
+        <h1 class="product-title">
+          {%- if product != blank -%}
+            {{ product.title }}
+          {%- else -%}
+            Solea Shell Stitch Cardigan
+            <span>Crochet Pattern PDF</span>
+          {%- endif -%}
+        </h1>
+
+        <!-- Star Rating -->
+        <div class="product-rating" aria-label="Customer rating">
           <div class="product-rating__stars" aria-hidden="true">
-            {% for i in (1..5) %}
-              <svg viewBox="0 0 24 24" fill="#F5C842">
-                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+            {%- for i in (1..5) -%}
+              <svg viewBox="0 0 24 24" fill="#F5C842" width="18" height="18">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
               </svg>
-            {% endfor %}
+            {%- endfor -%}
           </div>
           <span class="product-rating__score">5.0</span>
-          <a class="product-rating__count" href="#reviews" aria-label="Read 147 customer reviews">
+          <a href="#testimonials" class="product-rating__count">
             ({{ section.settings.review_count | default: '147' }} reviews)
           </a>
+          <span class="badge badge--accent">⚡ Instant Download</span>
         </div>
 
         <!-- Price block -->
         <div class="product-price-block">
           <div class="product-price">
-            <span class="product-price__current" aria-label="Price: $14.99">
+            <span class="product-price__current">
               {%- if product != blank -%}
-                {{ product.price | money }}
+                {{ product.selected_or_first_available_variant.price | money }}
               {%- else -%}
-                $14.99
+                ${{ section.settings.price | default: '14.99' }}
               {%- endif -%}
             </span>
-            {%- if section.settings.original_price != blank -%}
-              <span class="product-price__original" aria-label="Original price: {{ section.settings.original_price }}">
-                ${{ section.settings.original_price }}
+            {%- if product != blank and product.compare_at_price > product.price -%}
+              <span class="product-price__original">{{ product.compare_at_price | money }}</span>
+              <span class="product-price__save">
+                Save {{ product.compare_at_price | minus: product.price | money }}
               </span>
-              <span class="product-price__save">Save {{ section.settings.savings }}</span>
             {%- endif -%}
           </div>
-
-          <!-- Klarna -->
-          {%- if settings.show_klarna_badge -%}
-            <div class="product-klarna" aria-label="Pay in 4 installments with Klarna">
-              <span class="product-klarna__logo">K</span>
-              4 interest-free payments of
-              <strong>${{- 14.99 | divided_by: 4.0 | round: 2 -}}</strong>
-              with <span class="product-klarna__logo">Klarna</span>
-              <a href="https://www.klarna.com/us/shopping/how-to-pay-for-my-purchase/" target="_blank" rel="noopener">
-                Check purchase power
-              </a>
-            </div>
-          {%- else -%}
-            <div class="product-klarna">
-              <span class="product-klarna__logo">K</span>
-              4 payments of <strong>$3.75</strong> at 0% interest with <span class="product-klarna__logo">Klarna</span>
-            </div>
-          {%- endif -%}
+          <div class="product-klarna">
+            <span>or 4 interest-free payments of <strong>${{ section.settings.price | default: '14.99' | divided_by: 4.0 | round: 2 }}</strong> with</span>
+            <span class="product-klarna__logo">Klarna</span>
+          </div>
         </div>
 
         <!-- Digital download notice -->
         <div class="product-download-notice" role="note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="12" y1="8" x2="12" y2="12"/>
-            <line x1="12" y1="16" x2="12.01" y2="16"/>
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
-          <span>
-            <strong>Digital Download Only</strong> — No physical item will be shipped.
-            Access your PDF instantly after payment via your account's "Purchases &amp; Reviews" section.
-          </span>
+          <span>This is a <strong>digital PDF pattern</strong>. No physical item will be shipped. You'll receive an instant download link after purchase.</span>
         </div>
 
-        <!-- Product Form -->
+        <!-- Product form -->
         {%- if product != blank -%}
           {%- form 'product', product, id: 'product-form', novalidate: true -%}
             <input type="hidden" name="id" class="variant-input" value="{{ product.selected_or_first_available_variant.id }}">
 
             <!-- Size Selector -->
-            <div class="form-group">
-              <div class="product-variant-label">
-                Size
-                <a href="#size-guide"
-                   id="size-guide-toggle-btn"
-                   data-size-guide-toggle
-                   aria-label="View size guide">
-                  Size Guide →
-                </a>
+            {%- unless product.has_only_default_variant -%}
+              <div class="form-group">
+                <div class="product-variant-label">
+                  <span>Select Size</span>
+                  <a href="#size-guide-modal" data-size-guide-toggle id="size-guide-toggle-btn">Size Guide</a>
+                </div>
+                <div class="size-options" role="group" aria-label="Size options">
+                  {%- for variant in product.variants -%}
+                    <div class="size-option {% if forloop.first %}selected{% endif %}"
+                         role="button"
+                         tabindex="0"
+                         data-variant-id="{{ variant.id }}"
+                         aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+                         id="size-{{ variant.title | handleize }}">
+                      {{ variant.title }}
+                    </div>
+                  {%- endfor -%}
+                </div>
               </div>
-              <div class="size-options" role="group" aria-label="Select size">
-                {%- for variant in product.variants -%}
-                  <div class="size-option {% if forloop.first %}selected{% endif %}"
-                       data-variant-id="{{ variant.id }}"
-                       tabindex="0"
-                       role="radio"
-                       aria-checked="{{ forloop.first }}"
-                       aria-label="Size {{ variant.title }}">
-                    {{ variant.title }}
-                  </div>
-                {%- endfor -%}
-              </div>
-            </div>
+            {%- endunless -%}
 
-            <!-- CTA -->
+            <!-- CTA buttons -->
             <div class="product-cta">
               <button type="submit"
                       name="add"
-                      id="add-to-cart-btn"
+                      class="btn btn--primary btn--full btn--lg"
                       data-add-to-cart
-                      class="btn btn--dark btn--full btn--icon"
+                      id="add-to-cart-btn"
                       aria-label="Add to cart">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                  <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-                  <line x1="3" y1="6" x2="21" y2="6"/>
-                  <path d="M16 10a4 4 0 01-8 0"/>
+                  <circle cx="9" cy="21" r="1"/>
+                  <circle cx="20" cy="21" r="1"/>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57l1.65-7.42H6"/>
                 </svg>
-                Add to Cart
+                Add to Cart — {{ product.selected_or_first_available_variant.price | money }}
               </button>
-              <a href="{{ product.url }}/checkout"
-                 class="btn btn--primary btn--full btn--icon"
-                 id="buy-now-btn"
-                 aria-label="Buy now">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                  <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                  <path d="M2 17l10 5 10-5"/>
-                  <path d="M2 12l10 5 10-5"/>
-                </svg>
-                Buy It Now — Instant Download
-              </a>
+
+              {{- form | payment_button -}}
             </div>
+
           {%- endform -%}
         {%- else -%}
-          <!-- Fallback when no product assigned -->
-          <div class="size-options" role="group" aria-label="Select size">
-            {%- assign sizes_array = 'XS,S,M,L,XL,2X,3X,4X,5X' | split: ',' -%}
-            {%- for size in sizes_array -%}
-              <div class="size-option {% if forloop.first %}selected{% endif %}" tabindex="0" role="radio">{{ size }}</div>
-            {%- endfor -%}
-          </div>
-          <div class="product-cta" style="margin-top:1rem;">
-            <a href="#" class="btn btn--dark btn--full" id="add-to-cart-demo">Add to Cart</a>
-            <a href="#" class="btn btn--primary btn--full" id="buy-now-demo">Buy It Now — Instant Download</a>
+          <!-- Fallback CTA when no product is found -->
+          <div class="product-cta">
+            <a href="/products/{{ fallback_handle }}"
+               class="btn btn--primary btn--full btn--lg"
+               id="hero-buy-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="9" cy="21" r="1"/>
+                <circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57l1.65-7.42H6"/>
+              </svg>
+              Get the Pattern — ${{ section.settings.price | default: '14.99' }}
+            </a>
           </div>
         {%- endif -%}
 
-        <!-- Trust Icons -->
-        <div class="product-trust-icons" aria-label="Product guarantees">
+        <!-- Trust icons -->
+        <div class="product-trust-icons" aria-label="Purchase guarantees">
           <div class="trust-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+            <span>Secure<br>Checkout</span>
+          </div>
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
               <polyline points="7 10 12 15 17 10"/>
               <line x1="12" y1="15" x2="12" y2="3"/>
@@ -233,187 +235,291 @@
             <span>Instant<br>Download</span>
           </div>
           <div class="trust-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/>
-              <path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
-              <path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/>
-              <path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/>
-              <path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/>
-              <path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/>
-              <path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/>
-              <path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.98 1.18 2 2 0 012.96 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14v2.92z"/>
             </svg>
-            <span>2 PDF<br>Files</span>
-          </div>
-          <div class="trust-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/>
-            </svg>
-            <span>Video<br>Tutorial</span>
+            <span>Video<br>Included</span>
           </div>
         </div>
 
-        <!-- Accordion -->
-        <div class="product-accordion">
+        <!-- Accordion details -->
+        <div class="product-accordion" id="product-accordion">
 
-          <!-- What's Included -->
           <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="true" aria-controls="accordion-whats-included">
-              📋 What's Included
+            <button class="accordion-trigger" aria-expanded="false" id="accordion-whats-included">
+              What's included?
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <polyline points="6 9 12 15 18 9"/>
               </svg>
             </button>
-            <div class="accordion-content open" id="accordion-whats-included">
+            <div class="accordion-content" role="region" aria-labelledby="accordion-whats-included">
               <ul>
-                <li>Complete written pattern (Standard American Terms)</li>
-                <li>Step-by-step video tutorial link</li>
-                <li>Schematic with measurements</li>
-                <li>Stitch chart</li>
-                <li>Yarn substitution list</li>
-                <li>Sizes XS, S, M, L, XL, 2X, 3X, 4X, 5X</li>
+                <li>Full written PDF pattern (US crochet terms)</li>
+                <li>Step-by-step video tutorial</li>
+                <li>Full schematic with measurements</li>
+                <li>Stitch count chart for all 9 sizes (XS–5X)</li>
+                <li>Yarn & materials list with alternatives</li>
               </ul>
             </div>
           </div>
 
-          <!-- Pattern Details -->
           <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="accordion-details">
-              🧶 Pattern Details
+            <button class="accordion-trigger" aria-expanded="false" id="accordion-skill-level">
+              Skill level & gauge
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <polyline points="6 9 12 15 18 9"/>
               </svg>
             </button>
-            <div class="accordion-content" id="accordion-details">
-              <ul>
-                <li><strong>Difficulty:</strong> Intermediate</li>
-                <li><strong>Construction:</strong> Seamless, top-down</li>
-                <li><strong>Yarn Weight:</strong> Fingering #1</li>
-                <li><strong>Hook Size:</strong> US G/6 (4mm)</li>
-                <li><strong>Stitches:</strong> Shell stitch, V-stitch</li>
-                <li><strong>Sleeve Options:</strong> Short (1") or Long (17")</li>
-                <li><strong>Language:</strong> English only</li>
-              </ul>
+            <div class="accordion-content" role="region" aria-labelledby="accordion-skill-level">
+              <p>Suitable for intermediate crocheters comfortable with increases and reading a chart. Gauge: 16 sts × 8 rows = 4" in shell stitch pattern using a 5.0mm hook.</p>
             </div>
           </div>
 
-          <!-- Digital Download Info -->
           <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="accordion-download">
-              💾 Download Info
+            <button class="accordion-trigger" aria-expanded="false" id="accordion-delivery">
+              How do I receive the pattern?
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <polyline points="6 9 12 15 18 9"/>
               </svg>
             </button>
-            <div class="accordion-content" id="accordion-download">
-              <p>After purchase, download your PDF from your Shopify account or confirmation email. Compatible with Adobe Acrobat and most PDF readers on phones, tablets, and computers.</p>
-              <p><strong>Note:</strong> No physical item will be shipped. All sales are final — no returns on digital products.</p>
+            <div class="accordion-content" role="region" aria-labelledby="accordion-delivery">
+              <p>Immediately after purchase you'll receive an email with a secure download link. The PDF is yours to keep forever. If you have any issues, email us at support and we'll help right away.</p>
             </div>
           </div>
 
-          <!-- Copyright -->
-          <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="accordion-copyright">
-              © Copyright & Usage
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </button>
-            <div class="accordion-content" id="accordion-copyright">
-              <p>© 2026 MJ's Off The Hook Designs Inc. For personal use only. You may sell finished items made from this pattern — please credit MJsOffTheHookDesigns as designer for online sales.</p>
-              <p>Reproduction, distribution, or sharing of this pattern is strictly prohibited.</p>
-            </div>
-          </div>
+        </div>
 
-        </div><!-- /accordion -->
-
-      </div><!-- /product-info -->
-    </div><!-- /product-layout -->
-  </div><!-- /container -->
-</section>
-
-<!-- Size Guide Modal -->
-<div id="size-guide-modal"
-     class="modal"
-     aria-hidden="true"
-     aria-modal="true"
-     role="dialog"
-     aria-labelledby="size-guide-modal-title">
-  <div class="modal__backdrop" data-size-guide-close></div>
-  <div class="modal__dialog">
-    <div class="modal__header">
-      <h3 id="size-guide-modal-title">📏 Size Guide — Solea Cardigan</h3>
-      <button class="modal__close" data-size-guide-close aria-label="Close size guide">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
-    </div>
-    <div class="modal__body">
-      {% render 'size-chart-table' %}
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- Size Guide Modal -->
+  <div class="size-guide-modal" id="size-guide-modal" role="dialog" aria-modal="true" aria-labelledby="size-guide-title" aria-hidden="true">
+    <div class="size-guide-modal__inner">
+      <div class="size-guide-modal__header">
+        <h2 id="size-guide-title">Size Guide</h2>
+        <button class="size-guide-modal__close" data-size-guide-close aria-label="Close size guide" id="size-guide-close-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="22" height="22">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="size-guide-modal__body">
+        <p style="margin-bottom:1.25rem;color:var(--color-text-muted);font-size:0.9rem;">All measurements are finished garment measurements in inches. The cardigan is designed with 4–6" of positive ease for a relaxed, flowy fit.</p>
+        <div style="overflow-x:auto;">
+          <table class="size-table">
+            <thead>
+              <tr>
+                <th>Size</th>
+                <th>Bust (in)</th>
+                <th>Length (in)</th>
+                <th>Sleeve (in)</th>
+                <th>Fits Bust</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>XS</td><td>38"</td><td>22"</td><td>16"</td><td>30–32"</td></tr>
+              <tr><td>S</td><td>42"</td><td>23"</td><td>17"</td><td>34–36"</td></tr>
+              <tr><td>M</td><td>46"</td><td>24"</td><td>17"</td><td>38–40"</td></tr>
+              <tr><td>L</td><td>50"</td><td>25"</td><td>18"</td><td>42–44"</td></tr>
+              <tr><td>XL</td><td>54"</td><td>26"</td><td>18"</td><td>46–48"</td></tr>
+              <tr><td>2X</td><td>58"</td><td>27"</td><td>19"</td><td>50–52"</td></tr>
+              <tr><td>3X</td><td>62"</td><td>28"</td><td>19"</td><td>54–56"</td></tr>
+              <tr><td>4X</td><td>66"</td><td>29"</td><td>20"</td><td>58–60"</td></tr>
+              <tr><td>5X</td><td>70"</td><td>30"</td><td>20"</td><td>62–64"</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem;font-size:0.8rem;color:var(--color-text-muted);">💡 When in doubt between two sizes, size up for a floatier, more oversized drape.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wave divider -->
+  <div class="product-hero__wave" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path fill="#F5EFE4" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/>
+    </svg>
+  </div>
+
+</section>
 
 <style>
-  .modal {
-    position: fixed;
-    inset: 0;
-    z-index: 200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-lg);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--transition-base);
-  }
-  .modal.open {
-    opacity: 1;
-    pointer-events: all;
-  }
-  .modal__backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(44, 36, 22, 0.6);
-    backdrop-filter: blur(4px);
-  }
-  .modal__dialog {
-    position: relative;
-    background: var(--color-white);
-    border-radius: var(--radius-xl);
-    max-width: 800px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: var(--shadow-xl);
-    animation: scaleIn 0.3s ease;
-  }
-  .modal__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--space-lg) var(--space-xl);
-    border-bottom: 1px solid var(--color-border);
-  }
-  .modal__body {
-    padding: var(--space-xl);
-  }
-  .modal__close {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--color-text-muted);
-    padding: 0.25rem;
-    border-radius: var(--radius-sm);
-    transition: color var(--transition-fast), background var(--transition-fast);
-  }
-  .modal__close:hover {
-    color: var(--color-dark);
-    background: var(--color-bg-alt);
-  }
+/* ---- Product Hero Section ---- */
+.product-hero {
+  position: relative;
+  background: linear-gradient(170deg, #FDFAF6 0%, #F8F2E8 60%, #F5EFE4 100%);
+  padding: 5rem 0 0;
+  overflow: hidden;
+}
+
+/* Decorative background blobs */
+.product-hero__bg-deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.product-hero__blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+}
+
+.product-hero__blob--1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #C4956A40, transparent 70%);
+  top: -100px;
+  right: -100px;
+}
+
+.product-hero__blob--2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #7A9E8740, transparent 70%);
+  bottom: 50px;
+  left: -80px;
+}
+
+.product-hero__wave {
+  margin-top: 4rem;
+  line-height: 0;
+}
+
+.product-hero__wave svg {
+  display: block;
+  width: 100%;
+}
+
+/* Gallery placeholder */
+.product-gallery__placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: rgba(61, 46, 26, 0.3);
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+/* Gallery trust strip */
+.gallery-trust-strip {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.gallery-trust-strip span {
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+}
+
+/* Size guide modal */
+.size-guide-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(44, 36, 22, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.size-guide-modal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.size-guide-modal__inner {
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 32px 100px rgba(44, 36, 22, 0.3);
+  animation: scaleIn 0.3s ease forwards;
+}
+
+.size-guide-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.size-guide-modal__header h2 {
+  font-size: 1.25rem;
+}
+
+.size-guide-modal__close {
+  background: var(--color-bg-alt);
+  border: none;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  color: var(--color-text);
+}
+
+.size-guide-modal__close:hover {
+  background: var(--color-border);
+}
+
+.size-guide-modal__body {
+  padding: 1.5rem 2rem 2rem;
+}
+
+/* Size table */
+.size-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.size-table th {
+  background: var(--color-bg-alt);
+  padding: 0.625rem 0.875rem;
+  text-align: left;
+  font-weight: 700;
+  color: var(--color-text);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.size-table td {
+  padding: 0.625rem 0.875rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.size-table tr:last-child td {
+  border-bottom: none;
+}
+
+.size-table tr:nth-child(even) td {
+  background: #faf7f2;
+}
 </style>
 
 {% schema %}
@@ -426,21 +532,21 @@
       "label": "Product"
     },
     {
+      "type": "image_picker",
+      "id": "fallback_image",
+      "label": "Fallback product image"
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Price (fallback display only)",
+      "default": "14.99"
+    },
+    {
       "type": "text",
       "id": "review_count",
-      "label": "Review count displayed",
+      "label": "Review count",
       "default": "147"
-    },
-    {
-      "type": "text",
-      "id": "original_price",
-      "label": "Original (crossed-out) price",
-      "info": "Leave blank to hide sale badge"
-    },
-    {
-      "type": "text",
-      "id": "savings",
-      "label": "Savings text (e.g. 25% off)"
     }
   ],
   "presets": [
