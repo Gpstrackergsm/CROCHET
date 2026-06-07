@@ -11,9 +11,6 @@
     "features": {
       "type": "product-features"
     },
-    "video": {
-      "type": "video-preview"
-    },
     "testimonials": {
       "type": "testimonials"
     },
@@ -25,7 +22,6 @@
     "product",
     "lifestyle",
     "features",
-    "video",
     "testimonials",
     "faq"
   ]

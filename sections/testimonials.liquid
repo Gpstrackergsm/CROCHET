@@ -1,34 +1,723 @@
-<section class="section" id="reviews" style="background:var(--color-primary-light);padding:var(--space-4xl) 0;">
+{% comment %}
+  Section: Testimonials
+  Real customer reviews displayed in a masonry-style grid with pagination.
+{% endcomment %}
+
+<section class="reviews-section" id="testimonials" aria-labelledby="reviews-heading">
   <div class="container">
-    <div class="section-title text-center">
-      <h2>Loved by Crocheters</h2>
-      <p>Join thousands of makers who have created their own Solea Cardigan</p>
-    </div>
-    <div class="grid grid--3" style="margin-top:3rem;">
-      <div class="card card--glass">
-        <div class="card__body">
-          <div class="star-rating" style="margin-bottom:1rem;">⭐⭐⭐⭐⭐</div>
-          <p style="font-style:italic;font-size:0.95rem;">"This pattern is incredibly well written! The video tutorial made the shell stitches so easy to understand. I've already made two!"</p>
-          <p style="margin-top:1rem;font-weight:600;font-size:0.875rem;">— Sarah M.</p>
+
+    <!-- Header -->
+    <div class="section-title reveal">
+      <p class="reviews-eyebrow">What Makers Are Saying</p>
+      <h2 id="reviews-heading">Loved by Crocheters Around the World</h2>
+      <div class="reviews-summary">
+        <div class="reviews-stars" aria-label="Average rating 5 out of 5">
+          {% for i in (1..5) %}
+            <svg viewBox="0 0 24 24" fill="#F5C842" width="22" height="22" aria-hidden="true">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          {% endfor %}
+          <span class="reviews-summary__text"><strong>5.0</strong> · 47+ verified reviews</span>
         </div>
-      </div>
-      <div class="card card--glass">
-        <div class="card__body">
-          <div class="star-rating" style="margin-bottom:1rem;">⭐⭐⭐⭐⭐</div>
-          <p style="font-style:italic;font-size:0.95rem;">"As a plus-size crocheter, I appreciate the inclusive sizing so much. The 3X fit me perfectly with beautiful drape."</p>
-          <p style="margin-top:1rem;font-weight:600;font-size:0.875rem;">— Jennifer T.</p>
-        </div>
-      </div>
-      <div class="card card--glass">
-        <div class="card__body">
-          <div class="star-rating" style="margin-bottom:1rem;">⭐⭐⭐⭐⭐</div>
-          <p style="font-style:italic;font-size:0.95rem;">"The seamless construction is a dream. No sewing at the end! Highly recommend this to any intermediate crocheter."</p>
-          <p style="margin-top:1rem;font-weight:600;font-size:0.875rem;">— Amanda K.</p>
+        <div class="reviews-badges">
+          <span class="badge badge--accent">✅ 100% Recommend</span>
+          <span class="badge badge--primary">🏆 Star Seller</span>
         </div>
       </div>
     </div>
+
+    <!-- Reviews Grid -->
+    <div class="reviews-grid" id="reviews-grid">
+
+      <!-- Row 1 -->
+      <article class="review-card reveal reveal--delay-1">
+        <div class="review-card__header">
+          <div class="review-card__avatar">J</div>
+          <div>
+            <strong class="review-card__name">Judy</strong>
+            <time class="review-card__date">Jun 5, 2026</time>
+          </div>
+          <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+        </div>
+        <p class="review-card__text">"Great pattern. Took me a minute to understand how the sleeves worked, the video was essential for that, but once I got the hang of it, it went fast and easy. Love it."</p>
+        <span class="review-card__recommends">✔ Recommends</span>
+      </article>
+
+      <article class="review-card reveal reveal--delay-2">
+        <div class="review-card__header">
+          <div class="review-card__avatar" style="background:var(--color-accent);">N</div>
+          <div>
+            <strong class="review-card__name">Natasha</strong>
+            <time class="review-card__date">Jun 4, 2026</time>
+          </div>
+          <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+        </div>
+        <p class="review-card__text">"Pattern very easy to follow, loved the top I've made."</p>
+        <span class="review-card__recommends">✔ Recommends</span>
+      </article>
+
+      <article class="review-card reveal reveal--delay-3">
+        <div class="review-card__header">
+          <div class="review-card__avatar" style="background:#9B7EBD;">C</div>
+          <div>
+            <strong class="review-card__name">Carol</strong>
+            <time class="review-card__date">Jun 3, 2026</time>
+          </div>
+          <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+        </div>
+        <p class="review-card__text">"Very easy stitches — V stitch and shell stitch. Very difficult pattern but explained precisely. You must follow the instructions word by word and row by row. Completed project is beautiful in the end."</p>
+        <span class="review-card__recommends">✔ Recommends</span>
+      </article>
+
+      <article class="review-card reveal reveal--delay-1">
+        <div class="review-card__header">
+          <div class="review-card__avatar" style="background:#D4896A;">S</div>
+          <div>
+            <strong class="review-card__name">Syvannah</strong>
+            <time class="review-card__date">Jun 3, 2026</time>
+          </div>
+          <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+        </div>
+        <p class="review-card__text">"I absolutely love this pattern and have made it a couple times with beautiful results!"</p>
+        <span class="review-card__recommends">✔ Recommends</span>
+      </article>
+
+      <article class="review-card reveal reveal--delay-2">
+        <div class="review-card__header">
+          <div class="review-card__avatar" style="background:#6A9E8E;">M</div>
+          <div>
+            <strong class="review-card__name">Maura</strong>
+            <time class="review-card__date">Jun 2, 2026</time>
+          </div>
+          <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+        </div>
+        <p class="review-card__text">"A great, easy to follow pattern. Lots of pictures &amp; a very helpful video."</p>
+        <span class="review-card__recommends">✔ Recommends</span>
+      </article>
+
+      <article class="review-card reveal reveal--delay-3">
+        <div class="review-card__header">
+          <div class="review-card__avatar" style="background:#C4956A;">J</div>
+          <div>
+            <strong class="review-card__name">Jane</strong>
+            <time class="review-card__date">Jun 1, 2026</time>
+          </div>
+          <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+        </div>
+        <p class="review-card__text">"Thanks!! I love your patterns. I have made 5 sweaters since Christmas by following your YouTube and Blog. Easy to follow. I am 71 and have been crocheting since before I was 10 years old. Keep writing patterns and I will keep making them!! ❤️❤️❤️"</p>
+        <span class="review-card__recommends">✔ Recommends</span>
+      </article>
+
+      <!-- Hidden reviews (shown after clicking Load More) -->
+      <div class="reviews-extra" id="reviews-extra" aria-hidden="true">
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#7A9E87;">S</div>
+            <div>
+              <strong class="review-card__name">Shantal</strong>
+              <time class="review-card__date">May 30, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Turned out great and true to size using a different yarn and adjusting hook size etc. Did the 3/4 sleeve and long version."</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#A0748A;">F</div>
+            <div>
+              <strong class="review-card__name">Fiona</strong>
+              <time class="review-card__date">May 30, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Love MJ's patterns — always so clear with the row tables and videos. I was delighted to find the stitch diagram in this pattern too. It's working up beautifully 💕💕"</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#6A8EA0;">L</div>
+            <div>
+              <strong class="review-card__name">Lisa</strong>
+              <time class="review-card__date">May 30, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Love MJ's patterns, they are easy to follow and come with video tutorials. I've made 3 of these cardigans in the space of a few weeks as they work up quite quickly. Highly recommend!"</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#C4956A;">S</div>
+            <div>
+              <strong class="review-card__name">Samantha</strong>
+              <time class="review-card__date">May 29, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"The finished item is going to be a beautiful gift for my granddaughter."</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#7A9E87;">C</div>
+            <div>
+              <strong class="review-card__name">Cynthia</strong>
+              <time class="review-card__date">May 28, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"I'm currently working on this using Mandala String yarn. The pattern is easy to follow and it's coming along nicely. As with all of MJ's Off The Hook patterns, the sizes and instructions are very accurate. Highly recommend!"</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#9B7EBD;">C</div>
+            <div>
+              <strong class="review-card__name">Christy</strong>
+              <time class="review-card__date">May 26, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Easy enough to follow but the YouTube video helped a lot."</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#D4896A;">J</div>
+            <div>
+              <strong class="review-card__name">Jennifer</strong>
+              <time class="review-card__date">May 25, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"A A A A A"</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#6A9E8E;">D</div>
+            <div>
+              <strong class="review-card__name">Dorotaxo</strong>
+              <time class="review-card__date">May 24, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Very nice pattern easy to follow."</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#A0748A;">A</div>
+            <div>
+              <strong class="review-card__name">Ashley</strong>
+              <time class="review-card__date">May 23, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Great pattern. Easy to follow."</p>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#C4956A;">M</div>
+            <div>
+              <strong class="review-card__name">Maria</strong>
+              <time class="review-card__date">May 20, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Love this pattern, just made it for my sister she loves it too."</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#6A8EA0;">M</div>
+            <div>
+              <strong class="review-card__name">Meredith</strong>
+              <time class="review-card__date">May 17, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"I have not made this item yet. I find MJ's patterns to always be high quality. They are well written and usually have videos for support. I look forward to making this item."</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#7A9E87;">J</div>
+            <div>
+              <strong class="review-card__name">Janie</strong>
+              <time class="review-card__date">May 14, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Lovely cardigan, pattern was easy to follow and the video helped if I got stuck."</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#9B7EBD;">M</div>
+            <div>
+              <strong class="review-card__name">Mirian</strong>
+              <time class="review-card__date">May 14, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"I love all of MJ's patterns! She is a great teacher and has beautiful easy work!!"</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#D4896A;">N</div>
+            <div>
+              <strong class="review-card__name">Nuala</strong>
+              <time class="review-card__date">May 14, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Excellent, love it. Easy to follow pattern."</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#6A9E8E;">A</div>
+            <div>
+              <strong class="review-card__name">Amanda</strong>
+              <time class="review-card__date">May 12, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Absolutely beautiful cardigan, I'm making it for my daughter 🌸"</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#A0748A;">D</div>
+            <div>
+              <strong class="review-card__name">Daniela</strong>
+              <time class="review-card__date">Jun 4, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Great and easy to crochet."</p>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#C4956A;">A</div>
+            <div>
+              <strong class="review-card__name">Adrienne</strong>
+              <time class="review-card__date">May 11, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"The pattern was very clear and easy to follow, and the video was so helpful when I needed to clear up confusion. My finished product turned out great thanks to MJ's clear directions!"</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#6A8EA0;">N</div>
+            <div>
+              <strong class="review-card__name">Nancy</strong>
+              <time class="review-card__date">May 4, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Patterns are great and easy to follow."</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#7A9E87;">B</div>
+            <div>
+              <strong class="review-card__name">Brianna</strong>
+              <time class="review-card__date">May 1, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Great pattern — looking forward to continuing working on this!"</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#9B7EBD;">M</div>
+            <div>
+              <strong class="review-card__name">Misty</strong>
+              <time class="review-card__date">Apr 29, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Excellent patterns in this shop."</p>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#D4896A;">Y</div>
+            <div>
+              <strong class="review-card__name">Y</strong>
+              <time class="review-card__date">Apr 28, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Beautiful pattern with fast delivery."</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#6A9E8E;">B</div>
+            <div>
+              <strong class="review-card__name">Beate</strong>
+              <time class="review-card__date">Apr 25, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Very nice pattern and easy to follow."</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#A0748A;">S</div>
+            <div>
+              <strong class="review-card__name">Sarah</strong>
+              <time class="review-card__date">Apr 24, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Great easy to follow pattern."</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#C4956A;">R</div>
+            <div>
+              <strong class="review-card__name">Rebecca</strong>
+              <time class="review-card__date">Apr 22, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Well-written and very informative pattern. Lots of great details and descriptions."</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#6A8EA0;">I</div>
+            <div>
+              <strong class="review-card__name">Illistine</strong>
+              <time class="review-card__date">Apr 21, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Pattern is very well-written and was easy to follow."</p>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#7A9E87;">K</div>
+            <div>
+              <strong class="review-card__name">Kathy</strong>
+              <time class="review-card__date">Apr 20, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Downloaded very fast. Love their patterns. Thank you!"</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#9B7EBD;">T</div>
+            <div>
+              <strong class="review-card__name">Traci</strong>
+              <time class="review-card__date">Apr 20, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Absolutely love!!! Always well written pattern. Highly recommend. Plus has a YouTube tutorial. 10/10"</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#D4896A;">G</div>
+            <div>
+              <strong class="review-card__name">Geneva</strong>
+              <time class="review-card__date">Apr 19, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"I can't wait to make the Solea Shell Stitch Cardigan. The instructions are well written and easy to understand. Really looking forward to adding this one to my wardrobe and making some for my daughters."</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#6A9E8E;">K</div>
+            <div>
+              <strong class="review-card__name">Krystyna</strong>
+              <time class="review-card__date">Apr 17, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Excellent pattern creator. Need to wait for my yarn."</p>
+          <span class="review-card__recommends">✔ Recommends</span>
+        </article>
+
+        <article class="review-card">
+          <div class="review-card__header">
+            <div class="review-card__avatar" style="background:#A0748A;">L</div>
+            <div>
+              <strong class="review-card__name">Lyn</strong>
+              <time class="review-card__date">Apr 17, 2026</time>
+            </div>
+            <div class="review-card__stars" aria-label="5 stars">★★★★★</div>
+          </div>
+          <p class="review-card__text">"Sweet pattern, looking forward to making this one. Thank you, MJ!"</p>
+        </article>
+
+      </div><!-- /reviews-extra -->
+
+    </div><!-- /reviews-grid -->
+
+    <!-- Load More button -->
+    <div class="reviews-load-more" id="reviews-load-more-wrap">
+      <button class="btn btn--secondary btn--lg" id="reviews-load-more-btn" aria-expanded="false" aria-controls="reviews-extra">
+        Show All 47 Reviews ↓
+      </button>
+    </div>
+
+    <!-- CTA strip at bottom -->
+    <div class="reviews-cta-strip reveal">
+      <p>Join thousands of makers who love this pattern.</p>
+      <a href="#product" class="btn btn--primary" id="reviews-cta-btn">Get the Pattern →</a>
+    </div>
+
   </div>
 </section>
+
+<style>
+/* ---- Reviews Section ---- */
+.reviews-section {
+  background: linear-gradient(180deg, #FDFAF6 0%, #F0E8D8 100%);
+  padding: 6rem 0;
+}
+
+.reviews-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.reviews-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.875rem;
+  margin-top: 1.25rem;
+}
+
+.reviews-stars {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.reviews-summary__text {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  margin-left: 0.5rem;
+}
+
+.reviews-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Grid layout */
+.reviews-grid {
+  margin-top: 3rem;
+  columns: 3;
+  column-gap: 1.5rem;
+}
+
+.reviews-extra {
+  display: contents;
+}
+
+.reviews-extra.hidden {
+  display: none;
+}
+
+/* Individual review card */
+.review-card {
+  break-inside: avoid;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.375rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.review-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.review-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.review-card__avatar {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+}
+
+.review-card__name {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  line-height: 1.2;
+}
+
+.review-card__date {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.review-card__stars {
+  margin-left: auto;
+  color: #F5C842;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.review-card__text {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  font-style: italic;
+  margin: 0;
+}
+
+.review-card__recommends {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-accent-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding-top: 0.375rem;
+  border-top: 1px solid var(--color-bg-alt);
+}
+
+/* Load more button */
+.reviews-load-more {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+/* CTA strip */
+.reviews-cta-strip {
+  margin-top: 4rem;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  border-radius: var(--radius-xl);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.reviews-cta-strip p {
+  color: rgba(255,255,255,0.9);
+  font-size: 1.15rem;
+  font-family: var(--font-heading);
+  font-style: italic;
+  margin: 0;
+}
+
+.reviews-cta-strip .btn--primary {
+  background: white;
+  color: var(--color-primary-dark);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.reviews-cta-strip .btn--primary:hover {
+  background: var(--color-bg);
+  color: var(--color-primary-dark);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .reviews-grid { columns: 2; }
+}
+
+@media (max-width: 640px) {
+  .reviews-grid { columns: 1; }
+  .reviews-cta-strip { padding: 2rem 1.25rem; }
+}
+</style>
+
+<script>
+(function() {
+  const btn = document.getElementById('reviews-load-more-btn');
+  const extra = document.getElementById('reviews-extra');
+  const wrap = document.getElementById('reviews-load-more-wrap');
+  if (!btn || !extra) return;
+
+  btn.addEventListener('click', function() {
+    extra.classList.remove('hidden');
+    wrap.style.display = 'none';
+  });
+})();
+</script>
 
 {% schema %}
 {
