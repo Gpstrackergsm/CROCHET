@@ -1,0 +1,12 @@
+{
+  "name": "404",
+  "wrapper": "main",
+  "sections": {
+    "not-found": {
+      "type": "main-404"
+    }
+  },
+  "order": [
+    "not-found"
+  ]
+}
